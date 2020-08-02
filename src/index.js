@@ -1,17 +1,39 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import React, {useState} from 'react'
+import ReactDom from 'react-dom'
+import {SecondaryButton, TertiaryButton, PrimaryButton, SignUpModal} from './components'
+import {GlobalStyle, darkTheme, defaultTheme} from './utils'
+import {ThemeProvider} from 'styled-components'
+const App = () => {
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+    const [useDarkTheme, setUseDarkTheme] = useState(false)
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+
+    return (<ThemeProvider theme={useDarkTheme ? darkTheme : defaultTheme}>
+
+        <button     
+            style={{margin:"0 16px 24px", padding:"8px", background: "none"}}
+            onClick={() => setUseDarkTheme(true)}
+        >Dark Theme</button>
+        <button     
+            style={{margin:"0 16px 24px", padding:"8px", background: "none"}}
+            onClick={() => setUseDarkTheme(false)}
+        >Default Theme</button>
+        <div style={{
+            background: useDarkTheme ? defaultTheme.primary : darkTheme.primary,
+            width: "100vw",
+            height: "100vh",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-around"
+        }}>
+            <PrimaryButton  disabled>Hello world</PrimaryButton>
+            <SecondaryButton modifiers="small">Hello world</SecondaryButton>
+            <TertiaryButton modifiers={['large', 'warning']}>Hello world</TertiaryButton>
+        <SignUpModal></SignUpModal>
+        </div>
+
+            
+        <GlobalStyle/>
+    </ThemeProvider>)
+}
+ReactDom.render(<App/>, document.querySelector('#root'))
