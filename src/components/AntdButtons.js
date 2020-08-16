@@ -2,6 +2,8 @@ import styled from 'styled-components';
 import { typeScale } from '../utils';
 import { applyStyleModifiers } from 'styled-components-modifiers';
 
+import { Button } from 'antd';
+
 const secondaryColor = '#362222';
 const tertiaryColor = '#A1A1A1';
 
@@ -30,48 +32,46 @@ const BUTTON_MODIFIERS = {
     `,
 };
 
-const Button = styled.button`
-  padding: 12px 24px;
-  font-size: ${typeScale.paragraph};
-  border-radius: 2px;
-  min-width: 100px;
-  font-family: 'Heebo', sans-serif;
-  border: none;
-  margin: 8px;
-  transition: background-color 0.2s linear, color 0.2s linear;
-`;
 const PrimaryButton = styled(Button)`
-    background-color: ${(props) => props.theme.primary};
-    color: ${(props) => props.theme.textColorOnPrimary};
+  color: ${(props) => props.theme.primary};
+  border-color: ${(props) => props.theme.primary};
 
-    &:hover {
-        background-color: ${(props) => props.theme.primaryHoverColor};
-    }
-   
-    &:focus {
-        outline: 3px solid: ${(props) => props.theme.primaryHoverColor};
-        outline-offset: 4px;
-    }
-    &:active {
-        background-color: ${(props) => props.theme.primaryActiveColor};
-        border-color: ${(props) => props.theme.primaryActiveColor};
-    }
+  &:hover {
+    color: ${(props) => props.theme.primaryHoverColor};
+    border-color: ${(props) => props.theme.primaryHoverColor};
+  }
 
-    &:disabled {
-        background-color: ${(props) => props.theme.disabled};
-        color: ${(props) => props.theme.textOnDisabled};
-        cursor: not-allowed;
-
-    }
-
-    ${applyStyleModifiers(BUTTON_MODIFIERS)}
-
-`;
-const SecondaryButton = styled(Button)`
-  background-color: ${secondaryColor};
-  color: ${textInvertColor};
+  &:focus {
+    color: ${(props) => props.theme.primary};
+    border-color: ${(props) => props.theme.primary};
+  }
+  &:active {
+    color: ${(props) => props.theme.primaryActiveColor};
+    border-color: ${(props) => props.theme.primaryActiveColor};
+  }
   ${applyStyleModifiers(BUTTON_MODIFIERS)}
 `;
+
+const SecondaryButton = styled(Button)`
+  color: ${(props) => props.theme.secondary};
+  border-color: ${(props) => props.theme.secondary};
+
+  &:hover {
+    color: ${(props) => props.theme.primaryHoverColor};
+    border-color: ${(props) => props.theme.primaryHoverColor};
+  }
+
+  &:focus {
+    color: ${(props) => props.theme.secondary};
+    border-color: ${(props) => props.theme.secondary};
+  }
+  &:active {
+    color: ${(props) => props.theme.primaryActiveColor};
+    border-color: ${(props) => props.theme.primaryActiveColor};
+  }
+  ${applyStyleModifiers(BUTTON_MODIFIERS)}
+`;
+
 const TertiaryButton = styled(Button)`
   background-color: ${tertiaryColor};
   color: ${textInvertColor};
