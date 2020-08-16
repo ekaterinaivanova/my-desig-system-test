@@ -18,14 +18,12 @@ const BUTTON_MODIFIERS = {
     `,
   warning: (props) => `
         background-color: ${props.theme.status.warningColor};
+        border: 1px solid ${props.theme.status.warningBorderColor};
         color: ${props.theme.textInvertColor};
 
-        &:hover, &:focus {
+        &:hover {
             background-color: ${props.theme.status.warningColorHover};
-            outline: 3px slid ${props.theme.status.warningColorHover};
-        }
-        &:active {
-            background-color: ${props.theme.status.warningColorActive};
+            border: 1px solid ${props.theme.status.warningBorderColor};
         }
     `,
 };
@@ -56,6 +54,7 @@ const PrimaryButton = styled(Button)`
         background-color: ${(props) => props.theme.primaryActiveColor};
         border-color: ${(props) => props.theme.primaryActiveColor};
     }
+  
 
     &:disabled {
         background-color: ${(props) => props.theme.disabled};
