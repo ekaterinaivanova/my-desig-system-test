@@ -49,10 +49,6 @@ let inputList = [
  const MyForm = props => {
    const {
      values,
-     touched,
-     errors,
-     handleChange,
-     handleBlur,
      handleSubmit,
      isSubmitting
     } = props;
