@@ -1,93 +1,10 @@
 import React from 'react';
-import { Formik, Field, Form, ErrorMessage, FieldArray, withFormik } from 'formik';
+import { FieldArray, withFormik } from 'formik';
 import * as Yup from 'yup';
 import {MyInput} from './FormikAntdInput/FormikAntdInput'
 import FormStyle from './FormStyle'
 import { MyButton } from './AntdButtons';
 
-
-const initialValues = {
-  friends: [
-    {
-      name: 'Ekaterina',
-      email: 'Ekaterina',
-    },
-  ],
-};
-
-
-
-const InviteFriends = () => (
-  <div>
-    <h1>Invite friends</h1>
-    <Formik
-      initialValues={initialValues}
-      onSubmit={async (values) => {
-        await new Promise((r) => setTimeout(r, 500));
-        alert(JSON.stringify(values, null, 2));
-      }}
-    >
-      {({ values }) => (
-        <Form>
-          <FieldArray name="friends">
-            {({ insert, remove, push }) => (
-              <div>
-                {values.friends.length > 0 &&
-                  values.friends.map((friend, index) => (
-                    <div className="row" key={index}>
-                      <div className="col">
-                        <label htmlFor={`friends.${index}.name`}>Name</label>
-                        <Field
-                          name={`friends.${index}.name`}
-                          placeholder="Jane Doe"
-                          type="text"
-                        />
-                        <ErrorMessage
-                          name={`friends.${index}.name`}
-                          component="div"
-                          className="field-error"
-                        />
-                      </div>
-                      <div className="col">
-                        <label htmlFor={`friends.${index}.email`}>Email</label>
-                        <Field
-                          name={`friends.${index}.email`}
-                          placeholder="jane@acme.com"
-                          type="email"
-                        />
-                        <ErrorMessage
-                          name={`friends.${index}.name`}
-                          component="div"
-                          className="field-error"
-                        />
-                      </div>
-                      <div className="col">
-                        <button
-                          type="button"
-                          className="secondary"
-                          onClick={() => remove(index)}
-                        >
-                          X
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                <button
-                  type="button"
-                  className="secondary"
-                  onClick={() => push({ name: '', email: '' })}
-                >
-                  Add Friend
-                </button>
-              </div>
-            )}
-          </FieldArray>
-          <button type="submit">Invite</button>
-        </Form>
-      )}
-    </Formik>
-  </div>
-);
 
 const firstName = Yup.string()
 .max(15, 'Must be 15 characters or less')
@@ -109,7 +26,7 @@ const formValidationSchema = Yup.object({
   )
 })
 
-const initialValuess = {
+const initialValues = {
   firstName: 'Ekaterina',
   lastName: 'Ivanova',
   email: 'ekaterin@smartis.si',
@@ -220,7 +137,7 @@ let inputList = [
  };
  
  const MyEnhancedForm = withFormik({
-   mapPropsToValues: () => initialValuess,
+   mapPropsToValues: () => initialValues,
  
    // Custom sync validation
   validationSchema: formValidationSchema,

@@ -31,10 +31,10 @@ export const MyInput = ({isSubmitting, ...props}) => {
                     modifiers={[meta.error && meta.touched && 'error']}
                     />
                     <ErrorMessage
-                    component="div"
-                    className="error-message"
-                    name={props.name}
-                    />
+                        component="div"
+                        className="error-message"
+                        name={props.name}
+                        />
                 </FormDiv>
         
             );
