@@ -16,7 +16,6 @@ export const MyInput = ({isSubmitting, ...props}) => {
     } */
     // eslint-disable-next-line no-unused-vars
     const [field, meta] = useField(props);
-
     return (
 
         
@@ -28,7 +27,8 @@ export const MyInput = ({isSubmitting, ...props}) => {
                     <MyStyledInput
                     {...field}
                     disabled={isSubmitting}
-                    modifiers={[meta.error && 'error']}
+                    placeholder={props.placeholder}
+                    modifiers={[meta.error && meta.touched && 'error']}
                     />
                     <ErrorMessage
                     component="div"

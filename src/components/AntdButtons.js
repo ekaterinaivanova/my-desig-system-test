@@ -101,17 +101,13 @@ const BUTTON_MODIFIERS = {
       border-color: ${props.theme.tertiaryActiveColor};
     }
   `,
+  small: () => `    
+  font-size: 0.9em;
+  padding: 2px 8px;
+  line-height: 0.9em;`
 };
 
-const mainButton = styled(Button)`
-  ${'' /* &:disabled {
-    background-color: ${(props) => props.theme.disabledColor};
-    color: ${(props) => props.theme.colorOnDisabled};
-    border-color: ${(props) => props.theme.colorOnDisabled};
-  } */}
-`;
-
-const MyButton = styled(mainButton)`
+const MyButton = styled(Button)`
   color: ${(props) => props.theme.primary};
   border-color: ${(props) => props.theme.primary};
 

@@ -8,10 +8,14 @@ const tertiaryColor = '#A1A1A1';
 const textInvertColor = '#fff';
 
 const BUTTON_MODIFIERS = {
-  small: () => `
-        font-size: ${typeScale.helperText};
-        padding: 8px;
-    `,
+  small: (props) => {
+    console.log('props', props)
+    console.log('Da')
+    return `
+    font-size: ${typeScale.helperText};
+    padding: 8px;
+`
+  },
   large: () => `
         font-size: ${typeScale.header5};
         padding: 16px 24px;
