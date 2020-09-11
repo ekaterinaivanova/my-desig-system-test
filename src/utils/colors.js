@@ -32,7 +32,7 @@ export const neutral = {
 let pinkColor = '#E5989B';
 
 export const pink = {
-  100: lighten(0.5, pinkColor),
+  100: lighten(0.2, pinkColor),
   200: lighten(0.1, pinkColor),
   300: pinkColor,
   400: darken(0.1, pinkColor),

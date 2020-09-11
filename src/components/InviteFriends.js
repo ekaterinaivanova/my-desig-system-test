@@ -1,6 +1,9 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { Formik, Field, Form, ErrorMessage, FieldArray } from 'formik';
+import { Formik, Field, Form, ErrorMessage, FieldArray, withFormik } from 'formik';
+import * as Yup from 'yup';
+import {createInput, MyInput} from './FormikAntdInput/FormikAntdInput'
+import FormStyle from './FormStyle'
+
 
 const initialValues = {
   friends: [
@@ -10,6 +13,8 @@ const initialValues = {
     },
   ],
 };
+
+
 
 const InviteFriends = () => (
   <div>
@@ -83,4 +88,84 @@ const InviteFriends = () => (
   </div>
 );
 
-export default InviteFriends;
+const formValidationSchema = Yup.object({
+  firstName: Yup.string()
+    .max(15, 'Must be 15 characters or less')
+    .required('Required'),
+  lastName: Yup.string()
+    .max(15, 'Must be 15 characters or less')
+    .required('Required'),
+  email: Yup.string().required('Required').email(),
+})
+
+const initialValuess = {
+  firstName: 'Ekaterina',
+  lastName: 'Ivanova',
+  email: 'ekaterin@smartis.si'
+}
+
+let inputList = [
+  {
+   placeholder: 'Name', type: 'text', name: 'firstName'
+  },
+  {
+   placeholder: 'Last Name', type: 'text', name: 'lastName'
+  },
+  {
+    placeholder: 'Email', type: 'email', name: 'email'
+  }
+]
+
+ 
+ const MyForm = props => {
+   const {
+     values,
+     touched,
+     errors,
+     handleChange,
+     handleBlur,
+     handleSubmit,
+     isSubmitting
+    } = props;
+
+   return (
+     <div className="form-container">
+      <form onSubmit={handleSubmit}>
+
+      {
+        inputList.map((inputConfig, index) => {
+          let fieldProps = {
+            formik: props,
+            ...inputConfig,
+            isSubmitting
+          };
+          return ( 
+            <MyInput key={index} {...fieldProps}/>
+          )
+        })
+      }
+       
+        <button type="submit">Submit</button>
+      </form>
+      <FormStyle/>
+     </div>
+   );
+ };
+ 
+ const MyEnhancedForm = withFormik({
+   mapPropsToValues: () => initialValuess,
+ 
+   // Custom sync validation
+   validationSchema: formValidationSchema,
+ 
+  //  handleSubmit: (values, { setSubmitting }) => {
+  //    setTimeout(() => {
+  //      alert(JSON.stringify(values, null, 2));
+  //      setSubmitting(false);
+  //    }, 1000);
+  //  },
+ 
+   displayName: 'BasicForm',
+ })(MyForm);
+
+export default MyEnhancedForm;

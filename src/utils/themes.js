@@ -1,16 +1,26 @@
-import { blue, neutral, yellow, red, green } from './colors';
+import { blue, neutral, yellow, red, green, pink, sage } from './colors';
 import { primaryFont } from './typography';
 
 export const defaultTheme = {
   primary: blue[300],
   primaryHoverColor: blue[200],
   primaryActiveColor: blue[100],
+  primaryBorderColor: blue[400],
 
-  secondary: blue[300],
-  secondaryHoverColor: blue[200],
-  secondaryActiveColor: blue[100],
+  secondary: pink[300],
+  secondaryHoverColor: pink[200],
+  secondaryActiveColor: pink[100],
+  secondaryBorderColor: pink[400],
+
+  tertiary: sage[300],
+  tertiaryHoverColor: sage[200],
+  tertiaryActiveColor: sage[100],
+  tertiaryBorderColor: sage[400],
 
   textColorOnPrimary: neutral[100],
+  textColorOnSecondary: neutral[100],
+  textColorOnTertiary: neutral[100],
+
   textColor: neutral[600],
   textColorInverted: neutral[100],
   primaryFont,
@@ -22,7 +32,7 @@ export const defaultTheme = {
     warningColor: yellow[100],
     warningColorHover: yellow[200],
     warningColorActive: yellow[300],
-    errorColor: red[100],
+    errorColor: red[200],
     errorColorHover: red[200],
     errorColorActive: red[300],
     successColor: green[100],

@@ -2,9 +2,9 @@ import { Meta, Story, Preview } from "@storybook/addon-docs/blocks";
 import {action} from '@storybook/addon-actions'
 import {withKnobs, boolean} from '@storybook/addon-knobs'
 
-import { PrimaryButton, SecondaryButton, TertiaryButton } from "./AntdButtons";
+import { MyButton } from "./AntdButtons";
 
-<Meta title="Design System|Antd Buttons" component={PrimaryButton} />
+<Meta title="Design System|Antd Buttons" component={Button} />
 
 # Buttons
 
@@ -20,16 +20,33 @@ Primary buttons are used as a call to action and indicate the most important act
 
 <Preview withToolbar>
   <Story name="primary">
-    <PrimaryButton disabled={boolean('Disabled', false)} onClick={action('button-clickrrr')}>Hello world</PrimaryButton>
+    <MyButton disabled={boolean('Disabled', false)} onClick={action('button-clickrrr')}>Hello world</MyButton>
   </Story>
 </Preview>
+
+## Primary Raised Buttons
+
+Primary raised buttons are used as a call to action and indicate the most important action on a page.
+
+<Story name="primary rasied">
+  <MyButton modifiers="raised" disabled={boolean('Disabled', false)}>Hello world</MyButton>
+</Story>
+
 
 ## Secondary Buttons
 
 Primary buttons are used as a call to action and indicate the most important action on a page.
 
 <Story name="secondary">
-  <SecondaryButton>Hello world</SecondaryButton>
+  <MyButton modifiers={['secondary']} disabled={boolean('Disabled', false)}>Hello world</MyButton>
+</Story>
+
+## Secondary Raised Buttons
+
+Primary buttons are used as a call to action and indicate the most important action on a page.
+
+<Story name="secondary raised">
+  <MyButton modifiers={['secondary', 'raised']} disabled={boolean('Disabled', false)}>Hello world</MyButton>
 </Story>
 
 ## Tertiary Buttons
@@ -37,5 +54,13 @@ Primary buttons are used as a call to action and indicate the most important act
 Primary buttons are used as a call to action and indicate the most important action on a page.
 
 <Story name="tertiary">
-  <TertiaryButton>Hello world</TertiaryButton>
+  <MyButton modifiers={['tertiary']} disabled={boolean('Disabled', false)}>Hello world</MyButton>
+</Story>
+
+## Tertiary raiesd Buttons
+
+Primary buttons are used as a call to action and indicate the most important action on a page.
+
+<Story name="tertiary raised">
+  <MyButton modifiers={['tertiary', 'raised']} disabled={boolean('Disabled', false)}>Hello world</MyButton>
 </Story>
