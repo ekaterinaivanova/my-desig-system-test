@@ -8,7 +8,7 @@ import styled from 'styled-components';
 import { applyStyleModifiers } from 'styled-components-modifiers';
 import 'antd/dist/antd.css';
 
-import createAutocomplete from './Autocomplete/Autocomplete'
+import {createAutocomplete} from './Autocomplete/Autocomplete'
 import createNumberInput from './Input/Input'
 import FormDiv from './FormDiv'
 import FormStyle from './FormStyle'

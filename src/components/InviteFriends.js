@@ -2,6 +2,7 @@ import React from 'react';
 import { FieldArray, withFormik } from 'formik';
 import * as Yup from 'yup';
 import {MyInput} from './FormikAntdInput/FormikAntdInput'
+import {MyAutocomplete} from './Autocomplete/Autocomplete'
 import FormStyle from './FormStyle'
 import { MyButton } from './AntdButtons';
 
@@ -26,6 +27,15 @@ const formValidationSchema = Yup.object({
   )
 })
 
+const items = [
+  { name: 'Ekaterina', id: 1 },
+  { name: 'Matej', id: 2 },
+  { name: 'Simon', id: 3 },
+  { name: 'Nik', id: 4 },
+  { name: 'Miha', id: 5 },
+  { name: 'Jure', id: 6 },
+];
+
 const initialValues = {
   firstName: 'Ekaterina',
   lastName: 'Ivanova',
@@ -35,13 +45,13 @@ const initialValues = {
 
 let inputList = [
   {
-   placeholder: 'Name', type: 'text', name: 'firstName'
+   componentType: 'textField', placeholder: 'Name', type: 'text', name: 'firstName'
   },
   {
-   placeholder: 'Last Name', type: 'text', name: 'lastName'
+    componentType: 'textField', placeholder: 'Last Name', type: 'text', name: 'lastName'
   },
   {
-    placeholder: 'Email', type: 'email', name: 'email'
+    componentType: 'autocomplete', placeholder: 'Email', type: 'email', name: 'email', options: items
   }
 ]
 
@@ -53,20 +63,28 @@ let inputList = [
      isSubmitting
     } = props;
 
-   return (
+    return (
      <div className="form-container">
       <form onSubmit={handleSubmit}>
       <h1>Host</h1>
       {
-        inputList.map((inputConfig, index) => {
+        inputList.map(({componentType,...inputConfig}, index) => {
           let fieldProps = {
             formik: props,
             ...inputConfig,
             isSubmitting
           };
-          return ( 
-            <MyInput key={index} {...fieldProps}/>
-          )
+            switch (componentType) {
+              case 'textField':
+                return ( 
+                  <MyInput key={index} {...fieldProps}/>
+                )
+              case 'autocomplete':
+                  return (
+                    <MyAutocomplete key={index} {...fieldProps}/>
+                  )
+            }
+         
         })
       }
       <h1>Guests</h1>
@@ -97,9 +115,15 @@ let inputList = [
                           name,
                           isSubmitting
                         };
-                        return ( 
-                          <MyInput key={name} {...fieldProps}/>
-                        )
+                        switch(inputConfig.componentType) {
+                          case 'textField':
+                          return (<MyInput key={name} {...fieldProps}/>)
+                          case 'autocomplete':
+                            return (
+                              <MyAutocomplete key={index} {...fieldProps}/>
+                            )
+                        }
+                        
                       })
                      }
                    </div>
@@ -110,7 +134,7 @@ let inputList = [
                   disabled={isSubmitting}
                   modifiers={['secondary']}
                   style={{ marginTop: '12px' }}
-                  onClick={() => push({ name: '', email: '', lastName: '' })}
+                  onClick={() => push({ firstName: '', email: '', lastName: '' })}
                 >
                   Add friend
                 </MyButton>
