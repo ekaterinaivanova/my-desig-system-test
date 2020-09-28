@@ -13,7 +13,7 @@ const firstName = Yup.string()
 const lastName =  Yup.string()
     .max(15, 'Must be 15 characters or less')
     .required('Required')
-const email = Yup.string().required('Required').email();
+const email = Yup.string().required('Required').email('Invalid email');
 const formValidationSchema = Yup.object({
   firstName,
   lastName,
