@@ -1,5 +1,6 @@
 import {ThemeProvider} from 'styled-components'
 import {defaultTheme, darkTheme} from '../src/utils'
+import 'antd/dist/antd.css';
 
 export const contexts = [{
     icon: 'box',

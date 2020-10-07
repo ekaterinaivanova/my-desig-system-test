@@ -4,40 +4,26 @@ import { Field, ErrorMessage, FormikProps, FieldMetaProps, FieldInputProps } fro
 import MyStyledAutocomplete from './Autocomplete.style';
 import { AutoComplete } from 'antd';
 import FormDiv from '../common/FormDiv';
+import {AutocompleteOption, HandleAutocompleteSearchFn} from '../../types/form.types';
+import {PersonValue} from '../../types/friend.types';
 
 const { Option } = AutoComplete;
-
-interface Ioption {
-  id: number,
-  name: string
-}
-
-interface IhandleSearchFn {
-  (value: string | undefined): void
-}
 
 interface OtherProps {
     placeholder: string;
     name: string;
     onSelect?: (value: string) => void;
-    options?: Ioption[];
+    options?: AutocompleteOption[];
     type?: string
-
 }
 
-interface FormValues {
-    firstName: string;
-    lastName: string;
-    email: string;
-}
-  
-type AutocompleteProps = OtherProps & FormikProps<FormValues>
+type AutocompleteProps = OtherProps & FormikProps<PersonValue>
 
 export const MyAutocomplete: FunctionComponent<AutocompleteProps> = (properties: AutocompleteProps) => {
     const {isSubmitting, options, onSelect, ...props} = properties;
-    const [items, setItems] = useState<Ioption[]>([]);
-
-    const handleSearch: IhandleSearchFn = (value) => {
+    const [items, setItems] = useState<AutocompleteOption[]>([]);
+    //TODO FIX SEARCh
+    const handleSearch: HandleAutocompleteSearchFn = (value) => {
         let filtered = options || [];
         if (value) {
             filtered = filtered
@@ -50,8 +36,9 @@ export const MyAutocomplete: FunctionComponent<AutocompleteProps> = (properties:
         setItems(filtered || []);
     };
     return (
+        //TODO FIX WARNING name and placeholder
         <Field name={props.name}>
-            {({form, meta, field}: {form: FormikProps<FormValues>, meta: FieldMetaProps<FormValues>, field: FieldInputProps<string>}):JSX.Element => {
+            {({form, meta, field}: {form: FormikProps<PersonValue>, meta: FieldMetaProps<PersonValue>, field: FieldInputProps<string>}):JSX.Element => {
 
                 const {setTouched} = form.getFieldHelpers(field.name);
                 return (

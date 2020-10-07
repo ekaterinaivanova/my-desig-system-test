@@ -15,7 +15,6 @@ const App = () => {
     const [useDarkTheme] = useState(false);
     return (
         <ThemeProvider theme={useDarkTheme ? darkTheme : defaultTheme}>
-
             <InviteFriends initial={initialValues}/>
             <GlobalStyle />
         </ThemeProvider>

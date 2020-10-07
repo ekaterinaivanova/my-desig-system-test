@@ -1,10 +1,13 @@
-import React, { FunctionComponent, InjectedFormikProps } from 'react';
+import React from 'react';
 import { FieldArray, withFormik, FormikProps } from 'formik';
 import * as Yup from 'yup';
 import {MyInput} from '../FormikAntdInput/FormikAntdInput';
 import {MyAutocomplete} from '../Autocomplete/Autocomplete';
 import {FormStyle} from '../../utils/FormStyle';
 import { MyButton } from '../Buttons/Button';
+import {AutocompleteOption, componentConfig} from '../../types/form.types';
+
+import {PersonValue} from '../../types/friend.types';
 
 
 const firstName = Yup.string()
@@ -43,17 +46,6 @@ const initialValues = {
     friends: []
 };
 
-interface inputConfig  {
-    componentType: 'textField' | 'autocomplete',
-    placeholder: string,
-    type: string,
-    name: string,
-}
-
-interface componentConfig extends inputConfig{
-    options: Ioption[] | undefined
-}
-
 const inputList: componentConfig[] = [
     {
         componentType: 'textField', 
@@ -78,30 +70,6 @@ const inputList: componentConfig[] = [
     }
 ];
 
-interface Iperson {
-  firstName: string;
-  lastName: string;
-  email: string;
-  friends?: Iperson[];
-}
-
-
-
-interface FormValues {
-    firstName: string;
-    lastName: string;
-    email: string
-}
-interface Ioption {
-    id: number;
-    name: string;
-  }
-  
-
-interface OtherProps {
-    title?: string;
-}
-
 interface MyFormProps {
     initial: {
         firstName: string;
@@ -110,7 +78,7 @@ interface MyFormProps {
     }
 }
  
-const MyForm =(props: OtherProps & FormikProps<FormValues>) => {
+const MyForm =(props: FormikProps<PersonValue>) => {
     const {
         values,
         handleSubmit,
@@ -144,7 +112,70 @@ const MyForm =(props: OtherProps & FormikProps<FormValues>) => {
          
                     })
                 }
-               
+                <FieldArray name="friends">
+                    {
+                        ({ remove, push }) => {
+                            return (
+                                <div>
+
+                                    {
+                                        Array.isArray(values.friends) && values.friends.length > 0 ? <div>
+                                            {
+                                                values.friends.map((friend, index) => (
+                                                    <div key={index}>
+                                                        <div style={{display: 'flex'}}>
+                                                            <h1 style={{ width: '100%' }}>Friend {index + 1}</h1>
+                                                            <MyButton
+                                                                disabled={isSubmitting}
+                                                                modifiers={['tertiary', 'small']}
+                                                                style={{ marginTop: '26px' }}
+                                                                onClick={() => remove(index)}
+                                                            >
+                                                       Remove
+                                                            </MyButton>
+                                                        </div>
+                                                        {
+                                                            inputList.map((inputConfig) => {
+                                                                const name = `friends.${index}.${inputConfig.name}`;
+                                                                const fieldProps = {
+                                                                    ...props,
+                                                                    ...inputConfig,
+                                                                    name,
+                                                                    isSubmitting
+                                                                };
+                                                                switch(inputConfig.componentType) {
+                                                                case 'textField':
+                                                                    return (<MyInput key={name} {...fieldProps}/>);
+                                                                case 'autocomplete':
+                                                                    return (
+                                                                        <MyAutocomplete key={index} {...fieldProps}/>
+                                                                    );
+                                                                }
+                                                           
+                                                            })
+                                                        } 
+                                                    </div>
+                                                ))
+                                            }
+                                        </div>: <div>You have no friends :(</div>
+                                        
+                                    }
+
+                                    <MyButton
+                                        disabled={isSubmitting}
+                                        modifiers={['secondary']}
+                                        style={{ marginTop: '12px' }}
+                                        onClick={() => push({ firstName: '', email: '', lastName: '' })}
+                                    >
+                                        Add friend
+                                    </MyButton>
+
+                                </div>
+                            );
+                        }
+                    }
+
+                </FieldArray>
                 <MyButton
                     disabled={isSubmitting}
                     modifiers={['primary']}
@@ -159,12 +190,12 @@ const MyForm =(props: OtherProps & FormikProps<FormValues>) => {
     );
 };
  
-const MyEnhancedForm = withFormik<MyFormProps & OtherProps, FormValues>({
+const MyEnhancedForm = withFormik<MyFormProps, PersonValue>({
     mapPropsToValues: () => initialValues,
  
     // Custom sync validation
     validationSchema: formValidationSchema,
-    handleSubmit: (values: FormValues,
+    handleSubmit: (values: PersonValue,
         { props, setSubmitting, setErrors }) => {
         setTimeout(() => {
             alert(JSON.stringify(values, null, 2));
