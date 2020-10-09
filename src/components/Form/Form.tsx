@@ -25,10 +25,9 @@ export const FormItem: (props: FormikProps<FormikValues> & componentConfig) => J
         return <div>No form Type specified</div>;
     }
 };
-
+//TODO add titles to configs
 export const FormArrayItem: (props: FormikProps<FormikValues> & arrayFieldInputConfig) => JSX.Element = function(props: FormikProps<FormikValues> & arrayFieldInputConfig) {
     const {values, isSubmitting, name, componentConfigs} = props
-    console.log('props', props)
     
     return <FieldArray name={name}>
         {
