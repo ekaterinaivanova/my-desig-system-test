@@ -1,11 +1,10 @@
 import React, {useState, FunctionComponent} from 'react';
-import { Field, ErrorMessage, FormikProps, FieldMetaProps, FieldInputProps } from 'formik';
+import { Field, ErrorMessage, FormikProps, FieldMetaProps, FieldInputProps, FormikValues } from 'formik';
 
 import MyStyledAutocomplete from './Autocomplete.style';
 import { AutoComplete } from 'antd';
 import FormDiv from '../common/FormDiv';
 import {AutocompleteOption, HandleAutocompleteSearchFn} from '../../types/form.types';
-import {PersonValue} from '../../types/friend.types';
 
 const { Option } = AutoComplete;
 
@@ -17,10 +16,11 @@ interface OtherProps {
     type?: string
 }
 
-type AutocompleteProps = OtherProps & FormikProps<PersonValue>
 
-export const MyAutocomplete: FunctionComponent<AutocompleteProps> = (properties: AutocompleteProps) => {
-    const {isSubmitting, options, onSelect, ...props} = properties;
+type AutocompleteProps = OtherProps & FormikProps<FormikValues>
+
+export const MyAutocomplete: FunctionComponent<AutocompleteProps> = (properties) => {
+    const {isSubmitting, options, onSelect, name, placeholder} = properties;
     const [items, setItems] = useState<AutocompleteOption[]>([]);
     //TODO FIX SEARCh
     const handleSearch: HandleAutocompleteSearchFn = (value) => {
@@ -36,9 +36,8 @@ export const MyAutocomplete: FunctionComponent<AutocompleteProps> = (properties:
         setItems(filtered || []);
     };
     return (
-        //TODO FIX WARNING name and placeholder
-        <Field name={props.name}>
-            {({form, meta, field}: {form: FormikProps<PersonValue>, meta: FieldMetaProps<PersonValue>, field: FieldInputProps<string>}):JSX.Element => {
+        <Field name={name}>
+            {({form, meta, field}: {form: FormikProps<FormikValues>, meta: FieldMetaProps<FormikValues>, field: FieldInputProps<string>}):JSX.Element => {
 
                 const {setTouched} = form.getFieldHelpers(field.name);
                 return (
@@ -46,7 +45,7 @@ export const MyAutocomplete: FunctionComponent<AutocompleteProps> = (properties:
                         <MyStyledAutocomplete
                             {...field}
                             disabled={isSubmitting}
-                            placeholder={props.placeholder}
+                            placeholder={placeholder}
                             allowClear={true}
                             onSearch={handleSearch}
                             onSelect={(val) => {
