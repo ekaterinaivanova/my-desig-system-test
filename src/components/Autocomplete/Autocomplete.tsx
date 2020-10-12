@@ -17,9 +17,11 @@ interface OtherProps {
 }
 
 
-type AutocompleteProps = OtherProps & FormikProps<FormikValues>
+type AutocompleteProps<T> = OtherProps & FormikProps<T>
 
-export const MyAutocomplete: FunctionComponent<AutocompleteProps> = (properties) => {
+export const MyAutocomplete: <T> ({values, ...properties}: {values: T} &  AutocompleteProps<T>) => JSX.Element = function MyAutocomplete <T>({values, ...properties}: {values: T} & AutocompleteProps<T>) {
+
+
     const {isSubmitting, options, onSelect, name, placeholder} = properties;
     const [items, setItems] = useState<AutocompleteOption[]>([]);
     //TODO FIX SEARCh

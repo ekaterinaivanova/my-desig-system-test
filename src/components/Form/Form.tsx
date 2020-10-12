@@ -5,11 +5,12 @@ import { MyInput } from '../FormikAntdInput/FormikAntdInput';
 import {MyAutocomplete} from '../Autocomplete/Autocomplete';
 import { MyButton } from '../Buttons/Button';
 
+export const FormItem: <T> ({values, ...props}: {values: T} &  FormikProps<T> & componentConfig) => JSX.Element = function FormItem <T>({values, ...props}: {values: T} & FormikProps<T> & componentConfig) {
+    const {
+        componentType
+    } = props;
 
-export const FormItem: (props: FormikProps<FormikValues> & componentConfig) => JSX.Element = function(props: FormikProps<FormikValues> & componentConfig) {
-
-
-    switch (props.componentType) {
+    switch (componentType) {
     case 'textField':
         return ( 
             <MyInput {...props}/>
@@ -17,7 +18,7 @@ export const FormItem: (props: FormikProps<FormikValues> & componentConfig) => J
     case 'autocomplete':
         if (props.options) {
             return (
-                <MyAutocomplete {...props}/>
+                <MyAutocomplete values={values} {...props}/>
             );
         }
         return (<div>Autocomplete options are missing</div>);
@@ -26,8 +27,9 @@ export const FormItem: (props: FormikProps<FormikValues> & componentConfig) => J
     }
 };
 //TODO add titles to configs
-export const FormArrayItem: (props: FormikProps<FormikValues> & arrayFieldInputConfig) => JSX.Element = function(props: FormikProps<FormikValues> & arrayFieldInputConfig) {
-    const {values, isSubmitting, name, componentConfigs} = props
+export const FormArrayItem: <T extends FormikValues> ({values, ...props}: {values: T} &  FormikProps<T> & arrayFieldInputConfig) => JSX.Element = function FormArrayItem  <T extends FormikValues>({values, ...props}: {values: T} & FormikProps<T> & arrayFieldInputConfig) {
+
+    const {isSubmitting, name, componentConfigs} = props;
     
     return <FieldArray name={name}>
         {
@@ -36,19 +38,19 @@ export const FormArrayItem: (props: FormikProps<FormikValues> & arrayFieldInputC
                     <div>
 
                         {
-                            Array.isArray(values[name]) && values[name].length > 0 ? <div>
+                            values && values[name] && Array.isArray(values[name]) && values[name].length > 0 ? <div>
                                 {
-                                    values[name].map((friend, index) => (
+                                    values[name].map((_: any, index: number) => (
                                         <div key={index}>
                                             <div style={{display: 'flex'}}>
-                                                <h1 style={{ width: '100%' }}>Friend {index + 1}</h1> 
+                                                <h1 style={{ width: '100%' }}>{props.arrayItemLabel} {index + 1}</h1> 
                                                 <MyButton
                                                     disabled={isSubmitting}
                                                     modifiers={['tertiary', 'small']}
                                                     style={{ marginTop: '26px' }}
                                                     onClick={() => remove(index)}
                                                 >
-                                       Remove
+                                                    {props.removeButtonTitle || 'Remove'}
                                                 </MyButton>
                                             </div>
                                             {
@@ -60,13 +62,13 @@ export const FormArrayItem: (props: FormikProps<FormikValues> & arrayFieldInputC
                                                         name: fieldName,
                                                         isSubmitting
                                                     };
-                                                    return <FormItem key={`fieldArray${fieldName}${index}`} {...fieldProps} />;
+                                                    return <FormItem values={values} key={`fieldArray${fieldName}${index}`} {...fieldProps} />;
                                                 })
                                             } 
                                         </div>
                                     ))
                                 }
-                            </div>: <div>You have no friends :(</div>
+                            </div>: <div>{props.noItemsLabel || 'There are no items'}</div>
                         
                         }
 
@@ -76,7 +78,7 @@ export const FormArrayItem: (props: FormikProps<FormikValues> & arrayFieldInputC
                             style={{ marginTop: '12px' }}
                             onClick={() => push({ firstName: '', email: '', lastName: '' })}
                         >
-                        Add friend
+                            {props.addButtonTitle || 'Add'} 
                         </MyButton>
 
                     </div>

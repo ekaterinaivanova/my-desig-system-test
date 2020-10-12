@@ -72,6 +72,10 @@ const inputList: (componentConfig | arrayFieldInputConfig)[] = [
     {
         componentType: 'fieldArray',
         name: 'friends',
+        arrayItemLabel: 'Friend',
+        removeButtonTitle: 'Remove',
+        addButtonTitle: 'Add a Friend',
+        noItemsLabel: 'You have no friends :(',
         componentConfigs: [
             {
                 componentType: 'textField', 
@@ -97,22 +101,8 @@ const inputList: (componentConfig | arrayFieldInputConfig)[] = [
         ]
     }
 ];
-
-interface MyFormProps {
-    initial: {
-        firstName: string;
-        lastName: string;
-        email:string
-    }
-}
-
-function testFn (object:  {[field: string]: any}) {
-    console.log(object);
-}
-
-testFn(initialValues);
  
-const MyForm = (props: FormikProps<PersonValue>) => { //FormikProps<PersonValue> doesn't work why?
+const MyForm = (props: FormikProps<PersonValue>) => {
     const {
         values,
         handleSubmit,

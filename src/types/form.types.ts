@@ -18,7 +18,10 @@ export interface arrayFieldInputConfig {
     componentType: 'fieldArray';
     name: string;
     componentConfigs: componentConfig[];
-
+    arrayItemLabel: string;
+    removeButtonTitle?: string;
+    addButtonTitle? :string,
+    noItemsLabel?:string
 }
 
 export interface componentConfig extends inputConfig {

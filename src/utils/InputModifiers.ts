@@ -12,8 +12,12 @@ interface Iprops {
 }
 const INPUT_MODIFIERS = {
     error: (props: Iprops): string => `
-      border-color: ${props.theme.status.errorColor};
-    `,
+        border-color: ${props.theme.status.errorColor};
+      .ant-select-selector {
+        border-color: ${props.theme.status.errorColor}!important;
+      }
+     
+    `
 };
 
 export default INPUT_MODIFIERS;
