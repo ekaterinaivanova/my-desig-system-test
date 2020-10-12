@@ -112,7 +112,7 @@ function testFn (object:  {[field: string]: any}) {
 
 testFn(initialValues);
  
-const MyForm = (props: FormikProps<FormikValues>) => { //FormikProps<PersonValue> doesn't work why?
+const MyForm = (props: FormikProps<PersonValue>) => { //FormikProps<PersonValue> doesn't work why?
     const {
         values,
         handleSubmit,
@@ -159,7 +159,7 @@ const MyEnhancedForm = withFormik({
  
     // Custom sync validation
     validationSchema: formValidationSchema,
-    handleSubmit: (values: FormikValues,
+    handleSubmit: (values: PersonValue,
         { props, setSubmitting, setErrors }) => {
         setTimeout(() => {
             alert(JSON.stringify(values, null, 2));
