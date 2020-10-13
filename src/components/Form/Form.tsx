@@ -94,7 +94,7 @@ export const FormArrayItem: <T extends FormikValues> ({values, ...props}: {value
 
 
 interface FormComponentProps {
-    handleSubmit:(values: FormikValues, { setSubmitting }: {setSubmitting:  (isSubmitting: boolean) => void}) => void,
+    handleSubmit: <T extends FormikValues>(values: T, { setSubmitting }: {setSubmitting:  (isSubmitting: boolean) => void}) => void,
     initialValues: FormikValues,
     formValidationSchema: any,
     inputList: (componentConfig | arrayFieldInputConfig)[]
