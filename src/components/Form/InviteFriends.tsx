@@ -8,7 +8,7 @@ import { MyButton } from '../Buttons/Button';
 import {componentConfig, arrayFieldInputConfig} from '../../types/form.types';
 
 import {PersonValue} from '../../types/friend.types';
-import {FormItem, FormArrayItem} from './Form';
+import {FormItem, FormArrayItem, FormComponent} from './Form';
 
 const firstName = Yup.string()
     .max(15, 'Must be 15 characters or less')
@@ -102,62 +102,17 @@ const inputList: (componentConfig | arrayFieldInputConfig)[] = [
     }
 ];
  
-const MyForm = (props: FormikProps<PersonValue>) => {
-    const {
-        values,
-        handleSubmit,
-        isSubmitting
-    } = props;
 
-    return (
-        <div className="form-container">
-            <form onSubmit={handleSubmit}>
-                <h1>Host</h1>
-                {
-
-                    
-                    inputList.map((inputConfig, index) => {
-                        const fieldProps = {
-                            ...props,
-                            ...inputConfig,
-                            isSubmitting
-                        };
-                        if (fieldProps.componentType === 'fieldArray' ) {
-                            return <FormArrayItem key={index} {...fieldProps}/>;
-                        } else {
-                         
-                            return <FormItem key={index} {...fieldProps} />;
-                        }
-                    })
-                }
-                <MyButton
-                    disabled={isSubmitting}
-                    modifiers={['primary']}
-                    style={{ marginTop: '12px' }}
-                    htmlType="submit"
-                >
-                    Submit
-                </MyButton>
-            </form>
-            <FormStyle/>
-        </div>
-    );
+//TODO how to pass PersonValues TYPE
+const handleSubmit: (values: PersonValue, { setSubmitting }: {setSubmitting:  (isSubmitting: boolean) => void}) => void = function(values: PersonValue, { setSubmitting }: {setSubmitting:  (isSubmitting: boolean) => void}) {
+    setTimeout(() => {
+        alert(JSON.stringify(values, null, 2));
+        setSubmitting(false);
+    }, 1000);
 };
- 
-const MyEnhancedForm = withFormik({
-    mapPropsToValues: () => initialValues,
- 
-    // Custom sync validation
-    validationSchema: formValidationSchema,
-    handleSubmit: (values: PersonValue,
-        { props, setSubmitting, setErrors }) => {
-        setTimeout(() => {
-            alert(JSON.stringify(values, null, 2));
-            setSubmitting(false);
-        }, 1000);
-    },
- 
-    displayName: 'BasicForm',
-})(MyForm);
 
-export default MyEnhancedForm;
+const FriendsForm = () => (
+    <FormComponent handleSubmit={handleSubmit} formValidationSchema={formValidationSchema} initialValues={initialValues} inputList={inputList}/>
+);
+
+export default FriendsForm;

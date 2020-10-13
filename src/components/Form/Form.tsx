@@ -1,9 +1,11 @@
-import React from 'react';
-import { FieldArray, FormikProps, FormikValues } from 'formik';
+import React, { FunctionComponent } from 'react';
+import { FieldArray, FormikProps, FormikValues, withFormik } from 'formik';
 import {componentConfig, arrayFieldInputConfig} from '../../types/form.types';
 import { MyInput } from '../FormikAntdInput/FormikAntdInput';
 import {MyAutocomplete} from '../Autocomplete/Autocomplete';
 import { MyButton } from '../Buttons/Button';
+import { PersonValue } from '../../types/friend.types';
+import { FormStyle } from '../../utils';
 
 export const FormItem: <T> ({values, ...props}: {values: T} &  FormikProps<T> & componentConfig) => JSX.Element = function FormItem <T>({values, ...props}: {values: T} & FormikProps<T> & componentConfig) {
     const {
@@ -87,4 +89,71 @@ export const FormArrayItem: <T extends FormikValues> ({values, ...props}: {value
         }
 
     </FieldArray>;
+};
+
+
+
+interface FormComponentProps {
+    handleSubmit:(values: FormikValues, { setSubmitting }: {setSubmitting:  (isSubmitting: boolean) => void}) => void,
+    initialValues: FormikValues,
+    formValidationSchema: any,
+    inputList: (componentConfig | arrayFieldInputConfig)[]
+
+}
+
+export const FormComponent: (properties:FormComponentProps)  => JSX.Element = function FormComponent (properties) {
+
+    const { handleSubmit, initialValues, formValidationSchema, inputList} = properties;
+
+    const Form = (props: FormikProps<FormikValues>) => {
+        const {
+            handleSubmit,
+            isSubmitting,
+        } = props;
+    
+        return (
+            <div className="form-container">
+                <form onSubmit={handleSubmit}>
+                    <h1>Host</h1>
+                    {
+    
+                        
+                        inputList.map((inputConfig, index) => {
+                            const fieldProps = {
+                                ...props,
+                                ...inputConfig,
+                                isSubmitting
+                            };
+                            if (fieldProps.componentType === 'fieldArray' ) {
+                                return <FormArrayItem key={index} {...fieldProps}/>;
+                            } else {
+                             
+                                return <FormItem  key={index} {...fieldProps} />;
+                            }
+                        })
+                    }
+                    <MyButton
+                        disabled={isSubmitting}
+                        modifiers={['primary']}
+                        style={{ marginTop: '12px' }}
+                        htmlType="submit"
+                    >
+                        Submit
+                    </MyButton>
+                </form>
+                <FormStyle/>
+            </div>
+        );
+    };
+
+    const MyEnhancedForm = withFormik({
+        mapPropsToValues: () => initialValues,
+     
+        // Custom sync validation
+        validationSchema: formValidationSchema,
+        handleSubmit,
+        displayName: 'BasicForm',
+    })(Form);
+
+    return <MyEnhancedForm/>;
 };
